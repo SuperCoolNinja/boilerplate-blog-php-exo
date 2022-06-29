@@ -29,9 +29,9 @@
                         $id = $post['id'];
 
                         echo '
-                        <li class="col-6">';
+                        <li class="col-12">';
                             echo "
-                            <div class='card' style='width: 25rem; height: 30rem'>
+                            <div class='card mx-auto my-5' style='width: 25rem; height: 30rem'>
                                 <img src='{$image}' class='card-img-top' alt='Image here of post'>
                                 <div class='card-body' style='max-width: 25rem; overflow: hidden;'>
                                     <h5 class='card-title text-primary'>{$title}</h5>

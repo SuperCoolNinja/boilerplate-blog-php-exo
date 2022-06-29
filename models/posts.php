@@ -10,7 +10,7 @@ class ModelPosts {
     // Get all posts
     public function queryAllFromPosts() {
         $connexion = $this->db->connexion();
-        $sql = "SELECT * FROM posts";
+        $sql = "SELECT * FROM posts ORDER BY date DESC";
         $result = $connexion->query($sql);
         return $result;
     }

@@ -6,6 +6,7 @@ class ControllerPosts{
        $this->modelPosts = new ModelPosts();
     }
 
+   
     public function getPosts()
     {
         $posts = $this->modelPosts->queryAllFromPosts();
