@@ -10,18 +10,29 @@ class Router
     
     public function run()
     {
-
         // Check if the url contains a page parameter
         if(isset($_GET['page'])) {
             $page = $_GET['page'];
-            if ($page == 'home') {
+            switch($page) 
+            {
+            case 'home':
                 $this->controllerPosts->getPosts();
                 include_once 'views/home.php';
-            } elseif ($page == 'post') {
+                break;
+            case 'post':
                 $this->controllerPosts->getPostsByID();
                 include_once 'views/post.php';
-            } else {
+                break;
+                case 'postform':
+                include_once 'views/postform.php';
+                break;
+            default:
                 echo '404';
+                break;
+            }
+
+            if(isset($_POST['submit'])) {
+                $this->controllerPosts->insertNewPostBlog();
             }
         }
         else

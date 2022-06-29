@@ -11,8 +11,9 @@
     <title>Blog</title>
 </head>
 <body>
-    <header class="background-header text-white">
+    <header class="background-header text-white d-flex justify-content-between align-items-center px-5">
         <a href="?page=home"><h1>Blog</h1></a>
+        <a class="nav-link"  aria-disabled="false" href="?page=postform">Post Blog</a>
     </header>
     
     <main>

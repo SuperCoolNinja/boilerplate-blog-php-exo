@@ -25,5 +25,20 @@ class ModelPosts {
         $result->execute();
         return $result;
     }
+
+
+    public function queryInsertNewBlog()
+    {
+        $connexion = $this->db->connexion();
+        $sql = "INSERT INTO posts (title, content, date, image, author) VALUES (:title, :content, :date, :image, :author)";
+        $result = $connexion->prepare($sql);
+        $result->bindParam(':title', $_POST['title']);
+        $result->bindParam(':content', $_POST['content']);
+        $result->bindParam(':date', $_POST['date']);
+        $result->bindParam(':image', $_POST['image']);
+        $result->bindParam(':author', $_POST['author']);
+        $result->execute();
+        return $result;
+    }
 }
 ?>

@@ -6,7 +6,6 @@ class ControllerPosts{
        $this->modelPosts = new ModelPosts();
     }
 
-   
     public function getPosts()
     {
         $posts = $this->modelPosts->queryAllFromPosts();
@@ -17,6 +16,11 @@ class ControllerPosts{
     {
         $postsByID = $this->modelPosts->queryPostsByID();
         include_once './views/post.php';
+    }
+
+    public function insertNewPostBlog()
+    {
+        $this->modelPosts->queryInsertNewBlog();
     }
 }
 ?>
