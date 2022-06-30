@@ -1,6 +1,6 @@
 <?php
 include_once './models/users.php';
-class UsersControllers
+class ControllerUsers
 {
     public function __construct()
     {
@@ -8,34 +8,89 @@ class UsersControllers
     }
 
     /**
-     * Get all data from users table
-     * @return array
+     * Login
+     * @param string $login
+     * @param string $password
      */
-    public function getUsers()
+    public function login(string $username, string $password)
     {
-        $users = $this->modelUsers->queryAllFromUsers();
-        include_once './views/users.php';
-    }
-
-    /**
-     * Get all data of a user by id.
-     * @return array
-     */
-    public function getUserByID()
-    {
-        $usersByID = $this->modelUsers->queryUserByID();
-        include_once './views/user.php';
+        $this->modelUsers->queryLogin($username, $password);
     }
 
 
     /**
-     * Insert a new user in the database.
+     * Register user
+     * @param $username
+     * @param $password
+     * @param $email
+     */
+    public function register(string $username, string $password, string $email)
+    {
+        $this->modelUsers->queryRegister($username, $password, $email);
+    }
+
+    /**
+     * Update user
+     * @param $id
+     * @param $username
+     * @param $password
+     * @param $email
+     */
+    public function updateUser(int $id, string $username, string $password, string $email)
+    {
+        $this->modelUsers->queryUpdateUser($id, $username, $password, $email);
+    }
+
+    /**
+     * Delete user by ID
+     * @param $id
+     */
+    public function deleteUserByID(int $id)
+    {
+        $this->modelUsers->queryDeleteUserByID($id);
+    }
+
+    /**
+     * Logout
+     */
+    public function logout()
+    {
+        $this->modelUsers->queryLogout();
+    }
+
+    /**
+     * Get all users
+     */
+    public function getAllUsers()
+    {
+        $this->modelUsers->queryGetAllUsers();
+    }
+
+    /**
+     * Get user by ID
+     * @param $id
+     */
+    public function getUserByID(int $id)
+    {
+        $this->modelUsers->queryGetUserByID($id);
+    }
+
+    /**
+     * Get user by email
+     * @param $email
+     */
+    public function getUserByEmail(string $email)
+    {
+        $this->modelUsers->queryGetUserByEmail($email);
+    }
+
+    /**
+     * Get user by pseudo
      * @param $pseudo
      */
-    public function insertNewUser($pseudo)
+    public function getUserByPseudo(string $pseudo)
     {
-        $this->modelUsers->queryInsertNewUser($pseudo);
-        $this->getUsers();
+        $this->modelUsers->queryGetUserByPseudo($pseudo);
     }
 }
 ?>

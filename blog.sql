@@ -25,26 +25,33 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `id_user` int(11) DEFAULT NULL,
   `title` text DEFAULT NULL,
   `author` varchar(50) DEFAULT NULL,
-  `content` mediumtext DEFAULT NULL,
-  `date` varchar(30) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `date` varchar(20) DEFAULT NULL,
+  `image` text DEFAULT NULL,
+  `like` int(11) NOT NULL DEFAULT 0,
+  `comment` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   KEY `id_user` (`id_user`),
-  CONSTRAINT `FK_posts_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+  KEY `author_pseudo` (`author`),
+  CONSTRAINT `id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table blog.posts : ~0 rows (environ)
 
 -- Listage de la structure de table blog. users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pseudo` varchar(30) DEFAULT NULL,
-  `role` enum('user','staff') NOT NULL DEFAULT 'user',
+  `pseudo` varchar(20) DEFAULT NULL,
+  `role` enum('user','admin') NOT NULL DEFAULT 'user',
+  `profil_picture` text DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(40) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
   UNIQUE KEY `pseudo` (`pseudo`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table blog.users : ~1 rows (environ)
+-- Listage des données de la table blog.users : ~0 rows (environ)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -6,27 +6,14 @@ class ControllerPosts{
        $this->modelPosts = new ModelPosts();
     }
 
+    /**
+     * Get all posts
+     * @return array
+     */
     public function getPosts()
     {
-        $posts = $this->modelPosts->queryAllFromPosts();
-        include_once './views/home.php';
-    }
-
-    public function getPostByID()
-    {
-        $postsByID = $this->modelPosts->queryPostByID();
-        include_once './views/post.php';
-    }
-
-    public function insertNewPostBlog($title, $content, $image, $author, $date)
-    {
-        $this->modelPosts->queryInsertNewBlog($title, $content, $image, $author, $date);
-        $this->getPosts();
-    }
-
-    public function deletePost()
-    {
-        $this->modelPosts->queryDeletePost();
+        $posts = $this->modelPosts->getAllPosts();
+        include_once './views/posts/index.php';
     }
 }
 ?>

@@ -8,44 +8,121 @@ class UsersModel
         $this->db = new DB();
     }
 
+    /**
+     * Login
+     * @param string $pseudo
+     * @param string $password
+     */
+    public function queryLogin(string $pseudo, string $password)
+    {
+        $sql = "SELECT * FROM users WHERE pseudo = '$pseudo' AND password = '$password'";
+        $this->db->query($sql);
+    }
+
+  
     /***
-     * Get all data from users table
-     * @return array
-     */
-    public function queryAllFromUsers()
-    {
-        $connexion = $this->db->connexion();
-        $sql = "SELECT * FROM users";
-        $result = $connexion->query($sql);
-        return $result;
-    }
-
-    /**
-     * Get all data of a user by id.
-     * @return array
-     */
-    public function queryUserByID()
-    {
-        $connexion = $this->db->connexion();
-        $sql = "SELECT * FROM users WHERE id = :id";
-        $result = $connexion->prepare($sql);
-        $result->bindParam(':id', $_GET['id']);
-        $result->execute();
-        return $result;
-    }
-
-    /**
-     * Insert a new user in the database.
+     * Register user
      * @param $pseudo
+     * @param $password
+     * @param $email
      */
-    public function queryInsertNewUser($pseudo)
+    public function queryRegister(string $pseudo, string $password, string $email)
     {
-        $connexion = $this->db->connexion();
-        $sql = "INSERT INTO users (pseudo) VALUES (:pseudo)";
-        $result = $connexion->prepare($sql);
-        $result->bindParam(':pseudo', $pseudo);
-        $result->execute();
+        $sql = "INSERT INTO users (pseudo, password, email) VALUES ('$pseudo', '$password', '$email')";
+        $this->db->query($sql);
+    }
+
+    /**
+     * Update user
+     * @param $id
+     * @param $pseudo
+     * @param $password
+     * @param $email
+     */
+    public function queryUpdateUser(int $id, string $pseudo, string $password, string $email)
+    {
+        $sql = "UPDATE users SET pseudo = '$pseudo', password = '$password', email = '$email' WHERE id = $id";
+        $this->db->query($sql);
+    }
+
+    
+    /**
+     * Delete user by ID
+     * @param $id
+     */
+    public function queryDeleteUserByID(int $id)
+    {
+        $sql = "DELETE FROM users WHERE id = $id";
+        $this->db->query($sql);
+    }
+
+
+    // Query Logout 
+    public function queryLogout()
+    {
+        unset($_COOKIE['pseudo']);
+        setcookie('pseudo', '', time() - 3600);
+        header('Location: /blog/');
+    }
+
+    /***
+     * Get all users
+     * @return array
+     */
+    public function queryGetAllUsers()
+    {
+        $sql = "SELECT * FROM users";
+        $result = $this->db->query($sql);
         return $result;
     }
+
+    /**
+     * Get user by pseudo
+     * @param $pseudo
+     * @return array
+     */
+    public function queryGetUserByPseudo(string $pseudo)
+    {
+        $sql = "SELECT * FROM users WHERE pseudo = '$pseudo'";
+        $result = $this->db->query($sql);
+        return $result;
+    }
+
+    /**
+     * Get user by id
+     * @param $id
+     * @return array
+     */
+    public function queryGetUserById(int $id)
+    {
+        $sql = "SELECT * FROM users WHERE id = $id";
+        $result = $this->db->query($sql);
+        return $result;
+    }
+
+    /**
+     * Get user by email
+     * @param $email
+     * @return array
+     */
+    public function queryGetUserByEmail(string $email)
+    {
+        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $result = $this->db->query($sql);
+        return $result;
+    }
+
+    /**
+     * Check if user is admin by pseudo
+     * @param $pseudo
+     * @return bool
+     */
+    public function queryCheckIsAdminByPseudo(string $pseudo)
+    {
+        $sql = "SELECT pseudo, role FROM users WHERE pseudo = '$pseudo' AND role = 'admin'";
+        $result = $this->db->query($sql);
+        return $result;
+    }
+
 }
 ?>

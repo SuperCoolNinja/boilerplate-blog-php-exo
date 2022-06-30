@@ -9,7 +9,7 @@
 
 
         //Methode to connect to the database :
-        public function connexion()
+        public function connection()
         {
             try {
                 $db = new PDO("mysql:host={$this->host};dbname={$this->dbname}" , $this->user, $this->pass);
@@ -17,7 +17,7 @@
                 $db->exec("set names utf8");
                 return $db;
             } catch (PDOException $e) {
-                echo "Erreur : " . $e->getMessage();
+                echo "Error : " . $e->getMessage();
             }
         }
     }
