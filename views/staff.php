@@ -49,7 +49,8 @@
                                     </div>
 
                                     <div class='d-flex flex-row'>
-                                        <a href='?page=read-post&id={$id}' class='btn btn-primary mx-auto w-50'>Read more.</a>
+                                        <a href='?page=post&id={$id}' class='btn btn-primary w-50 mx-3'>Read more.</a>
+                                        <a href='?action=delete&id={$id}' class='btn btn-danger w-50'>Delete.</a>
                                     </div>
                                 </div>
                             </div>";

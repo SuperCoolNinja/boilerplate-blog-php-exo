@@ -16,7 +16,7 @@ class ModelPosts {
     }
 
     // Get one post by id
-    public function queryPostsByID()
+    public function queryPostByID()
     {
         $connexion = $this->db->connexion();
         $sql = "SELECT * FROM posts WHERE id = :id";
@@ -27,16 +27,26 @@ class ModelPosts {
     }
 
 
-    public function queryInsertNewBlog()
+    public function queryInsertNewBlog($title, $content, $image, $author, $date)
     {
         $connexion = $this->db->connexion();
         $sql = "INSERT INTO posts (title, content, date, image, author) VALUES (:title, :content, :date, :image, :author)";
         $result = $connexion->prepare($sql);
-        $result->bindParam(':title', $_POST['title']);
-        $result->bindParam(':content', $_POST['content']);
-        $result->bindParam(':date', $_POST['date']);
-        $result->bindParam(':image', $_POST['image']);
-        $result->bindParam(':author', $_POST['author']);
+        $result->bindParam(':title', $title);
+        $result->bindParam(':content', $content);
+        $result->bindParam(':date', $date);
+        $result->bindParam(':image', $image);
+        $result->bindParam(':author', $author);
+        $result->execute();
+        return $result;
+    }
+
+    public function queryDeletePost()
+    {
+        $connexion = $this->db->connexion();
+        $sql = "DELETE FROM posts WHERE id = :id";
+        $result = $connexion->prepare($sql);
+        $result->bindParam(':id', $_GET['id']);
         $result->execute();
         return $result;
     }

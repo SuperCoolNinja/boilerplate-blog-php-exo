@@ -12,15 +12,21 @@ class ControllerPosts{
         include_once './views/home.php';
     }
 
-    public function getPostsByID()
+    public function getPostByID()
     {
-        $postsByID = $this->modelPosts->queryPostsByID();
+        $postsByID = $this->modelPosts->queryPostByID();
         include_once './views/post.php';
     }
 
-    public function insertNewPostBlog()
+    public function insertNewPostBlog($title, $content, $image, $author, $date)
     {
-        $this->modelPosts->queryInsertNewBlog();
+        $this->modelPosts->queryInsertNewBlog($title, $content, $image, $author, $date);
+        $this->getPosts();
+    }
+
+    public function deletePost()
+    {
+        $this->modelPosts->queryDeletePost();
     }
 }
 ?>

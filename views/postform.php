@@ -13,7 +13,6 @@
 <body>
     <header class="background-header text-white d-flex justify-content-between align-items-center px-5">
         <a href="?page=home"><h1>Blog</h1></a>
-        <a class="nav-link"  aria-disabled="false" href="?page=postform">Post Blog</a>
     </header>
     
     <main>
@@ -21,21 +20,30 @@
             <form method="POST">
                 <div class="form-group">
                     <label for="title">Title</label>
-                    <input type="text" class="form-control mb-3" name="title" placeholder="Title">
+                    <input type="text" class="form-control mb-3" name="title" placeholder="Title" required>
                 </div>
+
+
                 <div class="form-group">
                     <label for="content">Content</label>
-                    <textarea class="form-control mb-3" name="content" rows="3" placeholder="content"></textarea>
+                    <textarea class="form-control mb-3" name="content" rows="3" placeholder="content"></textarea required>
                 </div>
+
+
                 <div class="form-group">
                     <label for="image">Image</label>
                     <input type="text" class="form-control mb-3" name="image" placeholder="Image">
                 </div>
+
+
                 <div class="form-group">
-                    <label for="author">Author</label>
-                    <input type="text" class="form-control mb-3" name="author" placeholder="Author">
+                    <input type="hidden" class="form-control mb-3" name="author" value="<?php echo $pseudo;?>">
                 </div>
+
+                <input type="hidden" class="form-control mb-3" name="date" value="<?php echo date("m/d/y");?>">
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+
+                <?php if(isset($submitError)) echo $submitError; ?>
             </form>
         </section>
     </main>

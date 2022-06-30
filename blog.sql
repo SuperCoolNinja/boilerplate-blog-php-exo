@@ -22,18 +22,29 @@ USE `blog`;
 -- Listage de la structure de table blog. posts
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) DEFAULT NULL,
   `title` text DEFAULT NULL,
   `author` varchar(50) DEFAULT NULL,
   `content` mediumtext DEFAULT NULL,
   `date` varchar(30) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
+  KEY `id` (`id`),
+  KEY `id_user` (`id_user`),
+  CONSTRAINT `FK_posts_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+
+-- Listage des données de la table blog.posts : ~0 rows (environ)
+
+-- Listage de la structure de table blog. users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pseudo` varchar(30) DEFAULT NULL,
+  `role` enum('user','staff') NOT NULL DEFAULT 'user',
+  UNIQUE KEY `pseudo` (`pseudo`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table blog.posts : ~0 rows (environ)
-INSERT INTO `posts` (`id`, `title`, `author`, `content`, `date`, `image`) VALUES
-	(1, 'Meteo', 'SuperCoolNinja', 'Le temps d\'aujourd\'hui étais magnifique !', '28/06/2022', 'meteo.jpg'),
-	(2, 'Cours de PHP', 'SuperCoolNinja', 'Les cours se montre intensif pas mal de nouvel informations c\'est super !', '29/06/2022', 'programming.jpg');
+-- Listage des données de la table blog.users : ~1 rows (environ)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
