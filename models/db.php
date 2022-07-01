@@ -9,7 +9,7 @@
 
 
         //Methode to connect to the database :
-        public function connection()
+        public function getConnexion()
         {
             try {
                 $db = new PDO("mysql:host={$this->host};dbname={$this->dbname}" , $this->user, $this->pass);

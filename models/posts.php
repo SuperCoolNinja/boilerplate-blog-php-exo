@@ -12,7 +12,7 @@ class ModelPosts {
      * @return array
      */
     public function getAllPosts() {
-        $connection = $this->db->connection();  
+        $connection = $this->db->getConnexion();  
         $sql = "SELECT * FROM posts";
         $stmt = $connection->prepare($sql);
         $stmt->execute();

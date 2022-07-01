@@ -15,5 +15,15 @@ class ControllerPosts{
         $posts = $this->modelPosts->getAllPosts();
         include_once './views/posts/index.php';
     }
+
+    /**
+     * Show all posts
+     * @param array $posts
+     */
+    public function showPosts($posts)
+    {
+        include_once './views/posts/index.php';
+    }
+    
 }
 ?>

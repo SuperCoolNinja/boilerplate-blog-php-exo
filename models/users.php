@@ -2,7 +2,7 @@
 include_once 'db.php';
 class UsersModel
 {
-    // Create Instance of DB Class
+    // Create Instance of DB Classf
     public function __construct()
     {
         $this->db = new DB();
@@ -15,8 +15,27 @@ class UsersModel
      */
     public function queryLogin(string $pseudo, string $password)
     {
-        $sql = "SELECT * FROM users WHERE pseudo = '$pseudo' AND password = '$password'";
-        $this->db->query($sql);
+        //hash the password
+        $password = hash('sha256', $password);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('SELECT * FROM users WHERE pseudo = :pseudo AND password = :password');
+
+        $query->execute([
+            'pseudo' => $pseudo,
+            'password' => $password
+        ]);
+        $result = $query->fetch();
+        if($result)
+        {
+            //check if password is correct
+            if($result['password'] === $password)
+            {
+                $_SESSION['loggedIn'] = true;
+                $result['isLoggedIn'] = true;
+                return true;
+            }
+        }
+        return false;
     }
 
   
@@ -28,8 +47,25 @@ class UsersModel
      */
     public function queryRegister(string $pseudo, string $password, string $email)
     {
-        $sql = "INSERT INTO users (pseudo, password, email) VALUES ('$pseudo', '$password', '$email')";
-        $this->db->query($sql);
+        $password = hash('sha256', $password);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('INSERT INTO users (pseudo, password, email, isLoggedIn) VALUES (:pseudo, :password, :email, :isLoggedIn)');
+        $query->execute([
+            'pseudo' => $pseudo,
+            'password' => $password,
+            'email' => $email,
+            'isLoggedIn' => 1
+        ]);
+        if($query)
+        {
+            $_SESSION['loggedIn'] = true;
+            header('Location: ?page=index');
+        }
+        else{
+            echo '<div class="alert alert-danger" role="alert">';
+            echo '<strong>Error!</strong> The email, password, or pseudo is not valid.';
+            echo '</div>';
+        }
     }
 
     /**
@@ -41,8 +77,14 @@ class UsersModel
      */
     public function queryUpdateUser(int $id, string $pseudo, string $password, string $email)
     {
-        $sql = "UPDATE users SET pseudo = '$pseudo', password = '$password', email = '$email' WHERE id = $id";
-        $this->db->query($sql);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('UPDATE users SET pseudo = :pseudo, password = :password, email = :email WHERE id = :id');
+        $query->execute([
+            'id' => $id,
+            'pseudo' => $pseudo,
+            'password' => $password,
+            'email' => $email
+        ]);
     }
 
     
@@ -52,16 +94,31 @@ class UsersModel
      */
     public function queryDeleteUserByID(int $id)
     {
-        $sql = "DELETE FROM users WHERE id = $id";
-        $this->db->query($sql);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('DELETE FROM users WHERE id = :id');
+        $query->execute([
+            'id' => $id
+        ]);
     }
 
 
-    // Query Logout 
-    public function queryLogout()
+    /**
+     * Logout the user with his id.
+     * @param $id
+     */
+    public function queryLogout($id)
     {
-        unset($_COOKIE['pseudo']);
-        setcookie('pseudo', '', time() - 3600);
+        $connexion = $this->db->getConnexion();
+        //Set isLoggedIn from db to false : 
+        $query = $connexion->prepare('UPDATE users SET isLoggedIn = 0 WHERE id = :id');
+        $query->execute([
+            'id' => $id
+        ]);
+
+        //Unset session :
+        $_SESSION['loggedIn'] = false;
+        session_unset();
+        session_destroy();
         header('Location: /blog/');
     }
 
@@ -71,8 +128,10 @@ class UsersModel
      */
     public function queryGetAllUsers()
     {
-        $sql = "SELECT * FROM users";
-        $result = $this->db->query($sql);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('SELECT * FROM users');
+        $query->execute();
+        $result = $query->fetchAll();
         return $result;
     }
 
@@ -83,8 +142,12 @@ class UsersModel
      */
     public function queryGetUserByPseudo(string $pseudo)
     {
-        $sql = "SELECT * FROM users WHERE pseudo = '$pseudo'";
-        $result = $this->db->query($sql);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('SELECT * FROM users WHERE pseudo = :pseudo');
+        $query->execute([
+            'pseudo' => $pseudo
+        ]);
+        $result = $query->fetch();
         return $result;
     }
 
@@ -95,8 +158,12 @@ class UsersModel
      */
     public function queryGetUserById(int $id)
     {
-        $sql = "SELECT * FROM users WHERE id = $id";
-        $result = $this->db->query($sql);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('SELECT * FROM users WHERE id = :id');
+        $query->execute([
+            'id' => $id
+        ]);
+        $result = $query->fetch();
         return $result;
     }
 
@@ -107,8 +174,12 @@ class UsersModel
      */
     public function queryGetUserByEmail(string $email)
     {
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $result = $this->db->query($sql);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('SELECT * FROM users WHERE email = :email');
+        $query->execute([
+            'email' => $email
+        ]);
+        $result = $query->fetch();
         return $result;
     }
 
@@ -119,8 +190,64 @@ class UsersModel
      */
     public function queryCheckIsAdminByPseudo(string $pseudo)
     {
-        $sql = "SELECT pseudo, role FROM users WHERE pseudo = '$pseudo' AND role = 'admin'";
-        $result = $this->db->query($sql);
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('SELECT is_admin FROM users WHERE pseudo = :pseudo');
+        $query->execute([
+            'pseudo' => $pseudo
+        ]);
+        $result = $query->fetch();
+        if($result['is_admin'] == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if the email is valid : if it's already used
+     * @param $email
+     * @return bool
+     */
+    public function queryCheckEmail(string $email)
+    {
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('SELECT * FROM users WHERE email = :email');
+        $query->execute([
+            'email' => $email
+        ]);
+        $result = $query->fetch();
+        if($result)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if the pseudo is valid 
+     * @param $pseudo
+     * @return bool
+     */
+    public function queryCheckPseudo(string $pseudo) {
+        $connection = $this->db->getConnexion();  
+        $sql = "SELECT pseudo FROM users WHERE pseudo = '$pseudo'";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
+    /**
+     * Check if the password is valid 
+     * @param $password
+     * @return bool
+     */
+    public function queryCheckPassword(string $password) {
+        $connection = $this->db->getConnexion();  
+        $sql = "SELECT password FROM users WHERE password = '$password'";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
         return $result;
     }
 

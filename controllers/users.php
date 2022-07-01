@@ -11,6 +11,7 @@ class ControllerUsers
      * Login
      * @param string $login
      * @param string $password
+     * @return bool
      */
     public function login(string $username, string $password)
     {
@@ -23,6 +24,7 @@ class ControllerUsers
      * @param $username
      * @param $password
      * @param $email
+     * @return bool
      */
     public function register(string $username, string $password, string $email)
     {
@@ -91,6 +93,37 @@ class ControllerUsers
     public function getUserByPseudo(string $pseudo)
     {
         $this->modelUsers->queryGetUserByPseudo($pseudo);
+    }
+
+
+    /**
+     * Check if the email is valid
+     * @param $email
+     * @return bool
+     */
+    public function checkEmail(string $email)
+    {
+        return $this->modelUsers->queryCheckEmail($email);
+    }
+
+    /**
+     * Check if the pseudo is valid
+     * @param $pseudo
+     * @return bool
+     */
+    public function checkPseudo(string $pseudo)
+    {
+        return $this->modelUsers->queryCheckPseudo($pseudo);
+    }
+
+    /**
+     * Check if the password is valid
+     * @param $password
+     * @return bool
+     */
+    public function checkPassword(string $password)
+    {
+        return $this->modelUsers->queryCheckPassword($password);
     }
 }
 ?>

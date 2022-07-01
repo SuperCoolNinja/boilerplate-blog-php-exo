@@ -1,20 +1,8 @@
-<header>
-    <nav>
-        <div class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Blog</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?action=add">Add Post</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<header class="background-header d-flex justify-content-center align-items-center">
+    <style><?php include 'main.css'; ?></style>
+    <a href="?page=index"><h1>UnitBlog</h1></a>
+
+    <?php if(!empty($_COOKIE['user']))
+        echo '<a class="nav-link"  aria-disabled="false" href="?action=checkIsLogged">Post Blog</a>';
+    else echo '<a class="nav-link"  aria-disabled="false" href="?page=login">Log in</a>';?>
 </header>
