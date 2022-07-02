@@ -9,26 +9,23 @@ class ControllerUsers
 
     /**
      * Login
-     * @param string $login
-     * @param string $password
-     * @return bool
+     * @param string $email
      */
-    public function login(string $username, string $password)
+    public function login(string $email)
     {
-        $this->modelUsers->queryLogin($username, $password);
+        $this->modelUsers->queryLogin($email);
     }
 
 
     /**
      * Register user
-     * @param $username
+     * @param $pseudo
      * @param $password
      * @param $email
-     * @return bool
      */
-    public function register(string $username, string $password, string $email)
+    public function register(string $pseudo, string $password, string $email)
     {
-        $this->modelUsers->queryRegister($username, $password, $email);
+        $this->modelUsers->queryRegister($pseudo, $password, $email);
     }
 
     /**
@@ -65,34 +62,41 @@ class ControllerUsers
      */
     public function getAllUsers()
     {
-        $this->modelUsers->queryGetAllUsers();
+        $result = $this->modelUsers->queryGetAllUsers();
+        return $result;
     }
 
     /**
      * Get user by ID
      * @param $id
+     * @return array
      */
     public function getUserByID(int $id)
     {
-        $this->modelUsers->queryGetUserByID($id);
+        $result = $this->modelUsers->queryGetUserByID($id);
+        return $result;
     }
 
     /**
      * Get user by email
      * @param $email
+     * @return array
      */
     public function getUserByEmail(string $email)
     {
-        $this->modelUsers->queryGetUserByEmail($email);
+        $result = $this->modelUsers->queryGetUserByEmail($email);
+        return $result;
     }
 
     /**
      * Get user by pseudo
      * @param $pseudo
+     * @return array
      */
     public function getUserByPseudo(string $pseudo)
     {
-        $this->modelUsers->queryGetUserByPseudo($pseudo);
+        $result = $this->modelUsers->queryGetUserByPseudo($pseudo);
+        return $result;
     }
 
 

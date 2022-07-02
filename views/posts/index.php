@@ -4,6 +4,22 @@
 <body>
     <?php include_once './views/includes/header.php';?>
 
+    <?php
+   
+
+    foreach($usersPostsData as $post)
+    {
+        echo '<div class="container">';
+        echo '<div class="row">';
+        echo '<div class="col-md-12">';
+        echo '<h1>'.$post['title'].'</h1>';
+        echo '<p>'.$post['content'].'</p>';
+        echo '<p>'.$post['created_at'].'</p>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+    }
+    ?>
 
     <!-- Section Profile and Post -->
     <section>
@@ -16,17 +32,26 @@
                         <div class="card-header">
                             <h3 class="text-center">Profile</h3>
 
-                            <!-- profil picture -->
-                            <img src="https://media-exp2.licdn.com/dms/image/D4E35AQGGNwcrOMi6CQ/profile-framedphoto-shrink_400_400/0/1655796813997?e=1657281600&v=beta&t=gEW1w-ot2kQphjNCbMTaWKHoInycAWv6fhodbsP8J5U" class="d-block rounded-circle mx-auto" alt="profile picture" width="100" height="100">
-
-                            <div class="card-body text-center">
-                                <h5 class="card-title">
-                                    <?php echo "pseudo"?>
-                                </h5>
-                                <p class="card-text">
-                                    <?php echo "status"?>
-                                </p>
-                            </div>
+                            <?php
+                                 foreach($userProfilData as $user)
+                                 {
+                                    $pseudo = $user['pseudo'];
+                                    $email = $user['email'];
+                                    $created_at = $user['created_at'];
+                                    $status = $user['status'];
+                                     echo '<img src="https://media-exp2.licdn.com/dms/image/D4E35AQGGNwcrOMi6CQ/profile-framedphoto-shrink_400_400/0/1655796813997?e=1657281600&v=beta&t=gEW1w-ot2kQphjNCbMTaWKHoInycAWv6fhodbsP8J5U" class="d-block rounded-circle mx-auto" alt="profile picture" width="100" height="100">';
+                                     echo '
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title">
+                                                '. $pseudo .'
+                                            </h6>
+                                            <p class="card-text text-muted">
+                                                '. $status. '
+                                            </p>
+                                        </div>
+                                     ';
+                                 }
+                            ?>
                         </div>
                     </div>
                 </div>

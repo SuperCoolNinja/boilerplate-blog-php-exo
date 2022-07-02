@@ -10,32 +10,31 @@ class UsersModel
 
     /**
      * Login
-     * @param string $pseudo
-     * @param string $password
+     * @param string $email
      */
-    public function queryLogin(string $pseudo, string $password)
+    public function queryLogin(string $email)
     {
-        //hash the password
-        $password = hash('sha256', $password);
         $connexion = $this->db->getConnexion();
-        $query = $connexion->prepare('SELECT * FROM users WHERE pseudo = :pseudo AND password = :password');
+        $query = $connexion->prepare('SELECT * FROM users WHERE email = :email');
 
         $query->execute([
-            'pseudo' => $pseudo,
-            'password' => $password
+            'email' => $email,
         ]);
-        $result = $query->fetch();
+        $result = $query->fetchAll();
         if($result)
         {
-            //check if password is correct
-            if($result['password'] === $password)
+            //update isLoggedIn db to one : 
+            $query = $connexion->prepare('UPDATE users SET isLoggedIn = 1 WHERE email = :email');
+            foreach($result as $user)
             {
-                $_SESSION['loggedIn'] = true;
-                $result['isLoggedIn'] = true;
-                return true;
+                $_SESSION['id'] = $user['id'];
+                $query->execute([
+                    'email' => $user['email']
+                ]);
+                break;
             }
+            $_SESSION['loggedIn'] = true;
         }
-        return false;
     }
 
   
@@ -47,7 +46,6 @@ class UsersModel
      */
     public function queryRegister(string $pseudo, string $password, string $email)
     {
-        $password = hash('sha256', $password);
         $connexion = $this->db->getConnexion();
         $query = $connexion->prepare('INSERT INTO users (pseudo, password, email, isLoggedIn) VALUES (:pseudo, :password, :email, :isLoggedIn)');
         $query->execute([
@@ -59,6 +57,7 @@ class UsersModel
         if($query)
         {
             $_SESSION['loggedIn'] = true;
+            $_SESSION['id'] = $connexion->lastInsertId();
             header('Location: ?page=index');
         }
         else{
@@ -85,6 +84,7 @@ class UsersModel
             'password' => $password,
             'email' => $email
         ]);
+
     }
 
     
@@ -99,6 +99,11 @@ class UsersModel
         $query->execute([
             'id' => $id
         ]);
+        $_SESSION['loggedIn'] = false;
+        $_SESSION['id'] = null;
+        session_unset();
+        session_destroy();
+        header('Location: /blog/');
     }
 
 
@@ -106,7 +111,7 @@ class UsersModel
      * Logout the user with his id.
      * @param $id
      */
-    public function queryLogout($id)
+    public function queryLogout(int $id)
     {
         $connexion = $this->db->getConnexion();
         //Set isLoggedIn from db to false : 
@@ -117,6 +122,7 @@ class UsersModel
 
         //Unset session :
         $_SESSION['loggedIn'] = false;
+        $_SESSION['id'] = null;
         session_unset();
         session_destroy();
         header('Location: /blog/');
@@ -147,7 +153,7 @@ class UsersModel
         $query->execute([
             'pseudo' => $pseudo
         ]);
-        $result = $query->fetch();
+        $result = $query->fetchAll();
         return $result;
     }
 
@@ -163,7 +169,7 @@ class UsersModel
         $query->execute([
             'id' => $id
         ]);
-        $result = $query->fetch();
+        $result = $query->fetchAll();
         return $result;
     }
 
@@ -179,7 +185,7 @@ class UsersModel
         $query->execute([
             'email' => $email
         ]);
-        $result = $query->fetch();
+        $result = $query->fetchAll();
         return $result;
     }
 
@@ -233,7 +239,7 @@ class UsersModel
         $sql = "SELECT pseudo FROM users WHERE pseudo = '$pseudo'";
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        $result = $stmt->fetchAll();
+        $result = $stmt->fetch();
         return $result;
     }
 
@@ -247,7 +253,7 @@ class UsersModel
         $sql = "SELECT password FROM users WHERE password = '$password'";
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        $result = $stmt->fetchAll();
+        $result = $stmt->fetch();
         return $result;
     }
 

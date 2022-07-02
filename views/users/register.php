@@ -14,19 +14,19 @@
                     <form method="post">
                         <div class="form-group">
                             <label for="pseudo" name="pseudo">Pseudo</label>
-                            <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Pseudo" maxlength="255">
+                            <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Pseudo" maxlength="20" required="required" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="email" name="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" maxlength="255">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" maxlength="255" required="required">
                         </div>
                         <div class="form-group">
                             <label for="password" name="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" maxlength="255">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="password_confirm" name="password-confirm">Password Confirm</label>
-                            <input type="password" class="form-control" id="password_confirm" name="password-confirm" placeholder="Password Confirm" maxlength="255">
+                            <input type="password" class="form-control" id="password_confirm" name="password-confirm" placeholder="Password Confirm" required="required" autocomplete="off">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block mt-3" name="submit">Register</button>
                     </form>

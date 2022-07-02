@@ -1,12 +1,14 @@
 <?php
 include_once 'controllers/posts.php';
 include_once 'controllers/users.php';
+include_once 'models/db.php';
 class Router
 {
     public function __construct()
     {
         $this->controllerPosts = new ControllerPosts();
         $this->controllerUsers = new ControllerUsers();
+        $this->db = new DB();
     }
     
     public function run()
@@ -21,24 +23,65 @@ class Router
         {
             case 'index':
                 // Check if the user is logged in
-                if(isset($_SESSION['loggedIn']))
+                if(isset($_SESSION['loggedIn']) && isset($_SESSION['id']))
                     if($_SESSION['loggedIn'] === true)
                     {
-                        $posts = $this->controllerPosts->getPosts();
-                        $this->controllerPosts->showPosts($posts);
+                        $userProfilData =  $this->controllerUsers->getUserByID($_SESSION['id']);
+                        $usersPostsData = $this->controllerPosts->getPosts();
+                        $this->controllerPosts->showPosts($usersPostsData, $userProfilData);
                     }else header('Location: ?page=login');
                 else header('Location: ?page=register');
                 break;
             case 'login':
-                $isLoginSuccess = $this->controllerUsers->login();
-                if($isLoginSuccess) 
-                    header('Location: ?page=index');
-                else 
+                include_once './views/users/login.php';
+                if(isset($_POST['submit']))
                 {
-                    // Display the error message
-                    echo '<div class="alert alert-danger" role="alert">';
-                    echo '<strong>Error!</strong> The email, password, or pseudo is not valid.';
-                    echo '</div>';
+                    //Check if input are set :
+                    if(isset($_POST['email']) && isset($_POST['password']))
+                    {
+                        //Secure input :
+                        $email = htmlspecialchars($_POST['email']);
+                        $password = htmlspecialchars($_POST['password']);
+
+                        // Check if the user exists
+                        $bdd = $this->db->getConnexion();
+                        $check = $bdd->prepare('SELECT id, password FROM users WHERE email = ?');
+                        $check->execute(array($email));
+                        $data = $check->fetch();
+                        $row = $check->rowCount();
+
+                        if($row > 0)
+                        {
+                            
+                            if(password_verify($password, $data['password']))
+                            {
+                                // Set the user as logged in
+                                $_SESSION['loggedIn'] = true;
+                                $_SESSION['id'] = $data['id'];
+                                header('Location: /blog/');
+                            }
+                            else
+                            {
+                                // Display an error message
+                                echo '<div class="alert alert-danger" role="alert">
+                                Wrong password
+                                </div>';
+                            }
+                        }
+                        else 
+                        {
+                            //show message errror : 
+                            echo '<div class="alert alert-danger" role="alert">
+                                    <strong>Error!</strong> Wrong email or password.
+                                </div>';
+                        }
+                    }
+                    else 
+                    {
+                        echo '<div class="alert alert-danger" role="alert">
+                        Please fill all the fields.
+                        </div>';
+                    }
                 }
                 break;
             case 'logout':
@@ -46,19 +89,21 @@ class Router
                 break;
             case 'register':
                 include_once './views/users/register.php';
-                if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password-confirm']) && isset($_POST['pseudo']))
+                if(!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password-confirm']) && !empty($_POST['pseudo']))
                 {
                     $email = htmlspecialchars($_POST['email']);
                     $password = htmlspecialchars($_POST['password']);
                     $passwordConfirm = htmlspecialchars($_POST['password-confirm']);
                     $pseudo = htmlspecialchars($_POST['pseudo']);
 
-                    if($password === $passwordConfirm)
+
+                    // Check if the email, pseudo exist :
+                    if(!$this->controllerUsers->checkEmail($email) && !$this->controllerUsers->checkPseudo($pseudo))
                     {
-                        // Check if the email, password, pseudo are valid
-                        if(!$this->controllerUsers->checkEmail($email) && !$this->controllerUsers->checkPseudo($pseudo))
+                        if($password === $passwordConfirm)
                         {
-                            $this->controllerUsers->register($email, $password, $pseudo);
+                            $password = password_hash($password, PASSWORD_DEFAULT);
+                            $this->controllerUsers->register($pseudo, $password, $email);
                         }
                         else
                         {
