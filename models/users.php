@@ -11,8 +11,9 @@ class UsersModel
     /**
      * Login
      * @param string $email
+     * @param string $password
      */
-    public function queryLogin(string $email)
+    public function queryLogin(string $email, string $password)
     {
         $connexion = $this->db->getConnexion();
         $query = $connexion->prepare('SELECT * FROM users WHERE email = :email');
@@ -24,16 +25,33 @@ class UsersModel
         if($result)
         {
             //update isLoggedIn db to one : 
-            $query = $connexion->prepare('UPDATE users SET isLoggedIn = 1 WHERE email = :email');
-            foreach($result as $user)
+            foreach($result as $data)
             {
-                $_SESSION['id'] = $user['id'];
-                $query->execute([
-                    'email' => $user['email']
-                ]);
-                break;
+                if(password_verify($password, $data['password']))
+                {
+                    // Set the data as logged in
+                    $_SESSION['loggedIn'] = true;
+                    $_SESSION['id'] = $data['id'];
+                    header('Location: /blog/');
+                    $query = $connexion->prepare('UPDATE users SET isLoggedIn = 1 WHERE email = :email');
+                    $query->execute([
+                        'email' => $data['email']
+                    ]);
+                    break;
+                }
+
+                // Display an error message
+                echo '<div class="alert alert-danger" role="alert">
+                Wrong password
+                </div>';
             }
-            $_SESSION['loggedIn'] = true;
+        }
+        else
+        {
+            //show message errror : 
+            echo '<div class="alert alert-danger" role="alert">
+                    <strong>Error!</strong> Wrong email or password.
+                </div>';
         }
     }
 
@@ -46,6 +64,7 @@ class UsersModel
      */
     public function queryRegister(string $pseudo, string $password, string $email)
     {
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $connexion = $this->db->getConnexion();
         $query = $connexion->prepare('INSERT INTO users (pseudo, password, email, isLoggedIn) VALUES (:pseudo, :password, :email, :isLoggedIn)');
         $query->execute([
@@ -257,5 +276,30 @@ class UsersModel
         return $result;
     }
 
+    /**
+     * Check if the user isLoggedIn == 1
+     * @param $id
+     * @return bool
+     */
+    public function queryCheckIsLoggedIn(int $id) {
+        $connection = $this->db->getConnexion();  
+        $sql = "SELECT isLoggedIn FROM users WHERE id = '$id'";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if($result['isLoggedIn'] == 1)
+            return true;
+        return false;
+    }
+
+    /**
+     * queryShowUsersFormError
+     * @param $error
+     */
+    public function queryShowUsersFormError(array $error)
+    {
+        //send the error to the view :
+        $this->view->showUsersFormError($error);
+    }
 }
 ?>

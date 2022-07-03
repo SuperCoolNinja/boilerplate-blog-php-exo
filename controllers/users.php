@@ -10,10 +10,11 @@ class ControllerUsers
     /**
      * Login
      * @param string $email
+     * @param string $password
      */
-    public function login(string $email)
+    public function login(string $email, string $password)
     {
-        $this->modelUsers->queryLogin($email);
+        $this->modelUsers->queryLogin($email, $password);
     }
 
 
@@ -128,6 +129,26 @@ class ControllerUsers
     public function checkPassword(string $password)
     {
         return $this->modelUsers->queryCheckPassword($password);
+    }
+
+    /**
+     * Check if the user is loggedIn
+     * @param $id
+     * @return bool
+     */
+    public function checkLoggedIn(int $id)
+    {
+        return $this->modelUsers->queryCheckIsLoggedIn($id);
+    }
+
+
+    /**
+     * Show Users form error
+     * @param $error
+     */
+    public function showUsersFormError(array $error)
+    {
+        $this->modelUsers->queryShowUsersFormError($error);
     }
 }
 ?>
