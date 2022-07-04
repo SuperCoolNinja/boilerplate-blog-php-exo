@@ -55,7 +55,7 @@
                                         //Add a button to logout
                                         echo '
                                         <div class="text-center my-5 mb-0">
-                                            <a href="?action=logout" class="btn btn-danger">Logout</a>
+                                            <a href="?page=logout" class="btn btn-danger">Logout</a>
                                         </div>
                                         ';
                                     }
@@ -63,7 +63,7 @@
                                     {
                                         echo '
                                         <div class="text-center my-2 mb-0">
-                                            <a href="?action=logout" class="btn btn-sm btn-danger">Logout</a>
+                                            <a href="?page=logout" class="btn btn-sm btn-danger">Logout</a>
                                         </div>';
                                     }
                                 }

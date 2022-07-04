@@ -100,6 +100,10 @@ class Router
                     </div>';
                 }
                 break;
+            case 'logout':
+                    $this->controllerUsers->logout($_SESSION['id']);
+                    header('Location: ?page=index');
+                break;
             case 'admin':
                 $this->controllerUsers->admin();
                 break;
@@ -116,25 +120,7 @@ class Router
             // Check the action
             switch($action)
             {
-                case 'comment':
-                    $this->controllerPosts->commentPost();
-                    break;
-                case 'add':
-                    $this->controllerPosts->addPost();
-                    break;
-                case 'edit':
-                    $this->controllerPosts->editPost();
-                    break;
-                case 'delete':
-                    $this->controllerPosts->deletePost();
-                    break;
-                case 'like':
-                    $this->controllerPosts->likePost();
-                    break;
-                case 'logout':
-                        $this->controllerUsers->logout($_SESSION['id']);
-                        header('Location: ?page=index');
-                    break;
+                
                 default:
                     break;
             }
