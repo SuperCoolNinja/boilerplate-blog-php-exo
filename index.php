@@ -2,6 +2,7 @@
 include_once 'controllers/posts.php';
 include_once 'controllers/users.php';
 include_once 'models/db.php';
+
 class Router
 {
     public function __construct()
@@ -86,7 +87,7 @@ class Router
                             $errors['password'] = 'Passwords do not match';
 
                         if(count($errors) > 0)
-                            header('Location: ?page=register&errors='.json_encode($errors));
+                            header('Location: ?page=register&errors='.json_encode($errors).'&email='.$email.'&pseudo='.$pseudo);
                         else $this->controllerUsers->register($email, $password, $pseudo);
                         break;
                     }

@@ -24,7 +24,7 @@ if(!empty($_GET['errors']))
                     <form method="post">
                         <div class="form-group">
                             <label for="pseudo" name="pseudo">Pseudo</label>
-                            <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Pseudo" maxlength="20" required="required" autocomplete="off">
+                            <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Pseudo" maxlength="20" value="<?= isset($_GET['pseudo'])? $_GET['pseudo']: "" ?>" required="required" autocomplete="off">
                             <?php 
                                 if(isset($_GET['errors']))
                                 {
@@ -35,7 +35,7 @@ if(!empty($_GET['errors']))
                         </div>
                         <div class="form-group">
                             <label for="email" name="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" maxlength="255" required="required">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" maxlength="255" value="<?= isset($_GET['email'])? $_GET['email']: "" ?>" required="required">
                             <?php 
                                 if(isset($_GET['errors']))
                                 {
