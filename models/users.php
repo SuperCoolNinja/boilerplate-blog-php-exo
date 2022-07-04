@@ -57,11 +57,11 @@ class UsersModel
     }
 
   
-    /***
+    /**
      * Register user
-     * @param $pseudo
-     * @param $password
-     * @param $email
+     * @param string $pseudo
+     * @param string $password
+     * @param string $email
      */
     public function queryRegister(string $pseudo, string $password, string $email)
     {
@@ -89,10 +89,10 @@ class UsersModel
 
     /**
      * Update user
-     * @param $id
-     * @param $pseudo
-     * @param $password
-     * @param $email
+     * @param int $id
+     * @param string $pseudo
+     * @param string $password
+     * @param string $email
      */
     public function queryUpdateUser(int $id, string $pseudo, string $password, string $email)
     {
@@ -110,7 +110,7 @@ class UsersModel
     
     /**
      * Delete user by ID
-     * @param $id
+     * @param int $id
      */
     public function queryDeleteUserByID(int $id)
     {
@@ -129,7 +129,7 @@ class UsersModel
 
     /**
      * Logout the user with his id.
-     * @param $id
+     * @param int $id
      */
     public function queryLogout(int $id)
     {
@@ -163,7 +163,7 @@ class UsersModel
 
     /**
      * Get user by pseudo
-     * @param $pseudo
+     * @param string $pseudo
      * @return array
      */
     public function queryGetUserByPseudo(string $pseudo)
@@ -179,7 +179,7 @@ class UsersModel
 
     /**
      * Get user by id
-     * @param $id
+     * @param int $id
      * @return array
      */
     public function queryGetUserById(int $id)
@@ -195,7 +195,7 @@ class UsersModel
 
     /**
      * Get user by email
-     * @param $email
+     * @param string $email
      * @return array
      */
     public function queryGetUserByEmail(string $email)
@@ -211,7 +211,7 @@ class UsersModel
 
     /**
      * Check if user is admin by pseudo
-     * @param $pseudo
+     * @param string $pseudo
      * @return bool
      */
     public function queryCheckIsAdminByPseudo(string $pseudo)
@@ -231,7 +231,7 @@ class UsersModel
 
     /**
      * Check if the email is valid : if it's already used
-     * @param $email
+     * @param string $email
      * @return bool
      */
     public function queryCheckEmail(string $email)
@@ -251,7 +251,7 @@ class UsersModel
 
     /**
      * Check if the pseudo is valid 
-     * @param $pseudo
+     * @param string $pseudo
      * @return bool
      */
     public function queryCheckPseudo(string $pseudo) {
@@ -265,7 +265,7 @@ class UsersModel
 
     /**
      * Check if the password is valid 
-     * @param $password
+     * @param string $password
      * @return bool
      */
     public function queryCheckPassword(string $password) {
@@ -279,7 +279,7 @@ class UsersModel
 
     /**
      * Check if the user isLoggedIn == 1
-     * @param $id
+     * @param int $id
      * @return bool
      */
     public function queryCheckIsLoggedIn(int $id) {
@@ -291,6 +291,22 @@ class UsersModel
         if($result['isLoggedIn'] == 1)
             return true;
         return false;
+    }
+
+
+    /**
+     * Update the status
+     * @param int $id
+     * @param string $status
+     */
+    public function querySetStatus(int $id, string $status)
+    {
+        $connexion = $this->db->getConnexion();
+        $query = $connexion->prepare('UPDATE users SET status = :status WHERE id = :id');
+        $query->execute([
+            'id' => $id,
+            'status' => $status
+        ]);
     }
 }
 ?>

@@ -20,9 +20,9 @@ class ControllerUsers
 
     /**
      * Register user
-     * @param $pseudo
-     * @param $password
-     * @param $email
+     * @param string $pseudo
+     * @param string $password
+     * @param string $email
      */
     public function register(string $pseudo, string $password, string $email)
     {
@@ -31,10 +31,10 @@ class ControllerUsers
 
     /**
      * Update user
-     * @param $id
-     * @param $username
-     * @param $password
-     * @param $email
+     * @param int $id
+     * @param string $username
+     * @param string $password
+     * @param string $email
      */
     public function updateUser(int $id, string $username, string $password, string $email)
     {
@@ -43,7 +43,7 @@ class ControllerUsers
 
     /**
      * Delete user by ID
-     * @param $id
+     * @param int $id
      */
     public function deleteUserByID(int $id)
     {
@@ -69,7 +69,7 @@ class ControllerUsers
 
     /**
      * Get user by ID
-     * @param $id
+     * @param string $id
      * @return array
      */
     public function getUserByID(int $id)
@@ -80,7 +80,7 @@ class ControllerUsers
 
     /**
      * Get user by email
-     * @param $email
+     * @param string $email
      * @return array
      */
     public function getUserByEmail(string $email)
@@ -91,7 +91,7 @@ class ControllerUsers
 
     /**
      * Get user by pseudo
-     * @param $pseudo
+     * @param string $pseudo
      * @return array
      */
     public function getUserByPseudo(string $pseudo)
@@ -103,7 +103,7 @@ class ControllerUsers
 
     /**
      * Check if the email is valid
-     * @param $email
+     * @param string $email
      * @return bool
      */
     public function checkEmail(string $email)
@@ -113,7 +113,7 @@ class ControllerUsers
 
     /**
      * Check if the pseudo is valid
-     * @param $pseudo
+     * @param string $pseudo
      * @return bool
      */
     public function checkPseudo(string $pseudo)
@@ -123,7 +123,7 @@ class ControllerUsers
 
     /**
      * Check if the password is valid
-     * @param $password
+     * @param string $password
      * @return bool
      */
     public function checkPassword(string $password)
@@ -133,12 +133,23 @@ class ControllerUsers
 
     /**
      * Check if the user is loggedIn
-     * @param $id
+     * @param int $id
      * @return bool
      */
     public function checkLoggedIn(int $id)
     {
         return $this->modelUsers->queryCheckIsLoggedIn($id);
     }
+
+    /**
+     * setStatus
+     * @param int $id
+     * @param string $status
+     */
+    public function setStatus(int $id, string $status)
+    {
+        $this->modelUsers->querySetStatus($id, $status);
+    }
+   
 }
 ?>

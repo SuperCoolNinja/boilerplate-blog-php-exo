@@ -35,6 +35,14 @@ class Router
                             $userProfilData =  $this->controllerUsers->getUserByID($_SESSION['id']);
                             $usersPostsData = $this->controllerPosts->getPosts();
                             $this->controllerPosts->showPosts($usersPostsData, $userProfilData);
+
+                            if(isset($_POST['submit-status']))
+                            {
+                                $new_status = htmlspecialchars($_POST['status']);
+                                $this->controllerUsers->setStatus($_SESSION['id'], $new_status);
+                                header('Location: index.php?page=index');
+                            }
+
                         }else header('Location: ?page=login');
                     }else header('Location: ?page=register');
                 else header('Location: ?page=register');

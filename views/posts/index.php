@@ -4,23 +4,6 @@
 <body>
     <?php include_once './views/includes/header.php';?>
 
-    <?php
-   
-
-    foreach($usersPostsData as $post)
-    {
-        echo '<div class="container">';
-        echo '<div class="row">';
-        echo '<div class="col-md-12">';
-        echo '<h1>'.$post['title'].'</h1>';
-        echo '<p>'.$post['content'].'</p>';
-        echo '<p>'.$post['created_at'].'</p>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-    }
-    ?>
-
     <!-- Section Profile and Post -->
     <section>
         <div class="container">
@@ -39,17 +22,44 @@
                                     $email = $user['email'];
                                     $created_at = $user['created_at'];
                                     $status = $user['status'];
-                                     echo '<img src="https://media-exp2.licdn.com/dms/image/D4E35AQGGNwcrOMi6CQ/profile-framedphoto-shrink_400_400/0/1655796813997?e=1657281600&v=beta&t=gEW1w-ot2kQphjNCbMTaWKHoInycAWv6fhodbsP8J5U" class="d-block rounded-circle mx-auto" alt="profile picture" width="100" height="100">';
-                                     echo '
+
+                                    echo '<img src="https://media-exp2.licdn.com/dms/image/D4E35AQGGNwcrOMi6CQ/profile-framedphoto-shrink_400_400/0/1655796813997?e=1657281600&v=beta&t=gEW1w-ot2kQphjNCbMTaWKHoInycAWv6fhodbsP8J5U" class="d-block rounded-circle mx-auto" alt="profile picture" width="100" height="100">';
+                                    
+                                    echo '
+                                    <div class="card-body text-center">
+                                        <h6 class="card-title mb-0">
+                                            '. $pseudo .'
+                                        </h6>
+                                    </div>
+                                    ';
+
+                                    //If status is null then we add a form to change the status
+                                    if($user['status'] == null)
+                                    {
+                                        //We add a form to set a string sttus
+                                        echo '
+                                        <form method="post">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="status" name="status" placeholder="Set a custom status">
+                                                </div>
+
+                                                <div class="text-center">
+                                                    <button type="submit" name = "submit-status" class="btn btn-primary my-4 mb-0">Submit</button>
+                                                </div>
+                                        </form>';
+                                    }
+                                    else 
+                                    {
+                                        echo '
                                         <div class="card-body text-center">
-                                            <h6 class="card-title">
-                                                '. $pseudo .'
-                                            </h6>
                                             <p class="card-text text-muted">
                                                 '. $status. '
                                             </p>
                                         </div>
-                                     ';
+                                        ';
+                                    }
+                                    
+                                  
                                  }
                             ?>
                         </div>

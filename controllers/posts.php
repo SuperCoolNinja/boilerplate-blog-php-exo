@@ -18,7 +18,8 @@ class ControllerPosts{
 
     /**
      * Show all posts
-     * @param array $posts
+     * string $usersPostsData
+     * string $userProfilData
      */
     public function showPosts($usersPostsData, $userProfilData)
     {
