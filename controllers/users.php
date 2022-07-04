@@ -140,15 +140,5 @@ class ControllerUsers
     {
         return $this->modelUsers->queryCheckIsLoggedIn($id);
     }
-
-
-    /**
-     * Show Users form error
-     * @param $error
-     */
-    public function showUsersFormError(array $error)
-    {
-        $this->modelUsers->queryShowUsersFormError($error);
-    }
 }
 ?>

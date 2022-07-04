@@ -44,6 +44,7 @@ class UsersModel
                 echo '<div class="alert alert-danger" role="alert">
                 Wrong password
                 </div>';
+                break;
             }
         }
         else
@@ -290,16 +291,6 @@ class UsersModel
         if($result['isLoggedIn'] == 1)
             return true;
         return false;
-    }
-
-    /**
-     * queryShowUsersFormError
-     * @param $error
-     */
-    public function queryShowUsersFormError(array $error)
-    {
-        //send the error to the view :
-        $this->view->showUsersFormError($error);
     }
 }
 ?>
