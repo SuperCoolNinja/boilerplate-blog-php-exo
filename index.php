@@ -64,9 +64,6 @@ class Router
                     break;
                 }
                 break;
-            case 'logout':
-                $this->controllerUsers->logout();
-                break;
             case 'register':
                 include_once './views/users/register.php';
                 if(isset($_POST['submit']))
@@ -94,7 +91,7 @@ class Router
 
                         if(count($errors) > 0)
                             header('Location: ?page=register&errors='.json_encode($errors).'&email='.$email.'&pseudo='.$pseudo);
-                        else $this->controllerUsers->register($email, $password, $pseudo);
+                        else $this->controllerUsers->register($pseudo, $password, $email);
                         break;
                     }
 
@@ -113,6 +110,9 @@ class Router
 
         if(isset($_GET['action']))
         {
+
+            $action = isset($_GET['action']) ? $_GET['action'] : '';
+
             // Check the action
             switch($action)
             {
@@ -132,15 +132,13 @@ class Router
                     $this->controllerPosts->likePost();
                     break;
                 case 'logout':
-                        $this->controllerUser->logout();
+                        $this->controllerUsers->logout($_SESSION['id']);
+                        header('Location: ?page=index');
                     break;
                 default:
-                    echo 'Action not found';
                     break;
             }
         }
-        
-        
 
     }
 }

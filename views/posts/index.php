@@ -48,11 +48,25 @@
                                                 </div>
 
                                                 <div class="text-center">
-                                                    <button type="submit" name="submit-status" class="btn btn-primary my-4 mb-0">Submit</button>
+                                                    <button type="submit" name="submit-status" class="btn btn-sm btn-primary my-1 mb-0">Submit</button>
                                                 </div>
                                         </form>';
+
+                                        //Add a button to logout
+                                        echo '
+                                        <div class="text-center my-5 mb-0">
+                                            <a href="?action=logout" class="btn btn-danger">Logout</a>
+                                        </div>
+                                        ';
                                     }
-                                 }
+                                    else
+                                    {
+                                        echo '
+                                        <div class="text-center my-2 mb-0">
+                                            <a href="?action=logout" class="btn btn-sm btn-danger">Logout</a>
+                                        </div>';
+                                    }
+                                }
                             ?>
                         </div>
                     </div>

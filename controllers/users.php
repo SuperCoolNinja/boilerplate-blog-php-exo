@@ -52,10 +52,11 @@ class ControllerUsers
 
     /**
      * Logout
+     * @param int $id
      */
-    public function logout()
+    public function logout(int $id)
     {
-        $this->modelUsers->queryLogout();
+        $this->modelUsers->queryLogout($id);
     }
 
     /**

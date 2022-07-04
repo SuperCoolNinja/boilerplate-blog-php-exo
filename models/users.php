@@ -142,10 +142,9 @@ class UsersModel
 
         //Unset session :
         $_SESSION['loggedIn'] = false;
-        $_SESSION['id'] = null;
-        session_unset();
-        session_destroy();
-        header('Location: /blog/');
+        // $_SESSION['id'] = null;
+        // session_unset();
+        // session_destroy();
     }
 
     /***
