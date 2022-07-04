@@ -62,7 +62,7 @@
                                     else
                                     {
                                         echo '
-                                        <div class="text-center my-2 mb-0">
+                                        <div class="text-center my-2 mb-2">
                                             <a href="?page=logout" class="btn btn-sm btn-danger">Logout</a>
                                         </div>';
                                     }
