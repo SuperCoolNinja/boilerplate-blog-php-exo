@@ -47,11 +47,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) DEFAULT NULL,
   `password` text DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
   `isLoggedIn` tinyint(1) DEFAULT NULL,
   UNIQUE KEY `pseudo` (`pseudo`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table blog.users : ~0 rows (environ)
 

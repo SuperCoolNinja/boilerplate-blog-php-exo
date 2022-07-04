@@ -32,17 +32,15 @@ class Router
                         //Check if the user is logged in :
                         if($this->controllerUsers->checkLoggedIn($_SESSION['id']))
                         {
-                            $userProfilData =  $this->controllerUsers->getUserByID($_SESSION['id']);
-                            $usersPostsData = $this->controllerPosts->getPosts();
-                            $this->controllerPosts->showPosts($usersPostsData, $userProfilData);
-
                             if(isset($_POST['submit-status']))
                             {
                                 $new_status = htmlspecialchars($_POST['status']);
                                 $this->controllerUsers->setStatus($_SESSION['id'], $new_status);
-                                header('Location: index.php?page=index');
                             }
 
+                            $userProfilData =  $this->controllerUsers->getUserByID($_SESSION['id']);
+                            $usersPostsData = $this->controllerPosts->getPosts();
+                            $this->controllerPosts->showPosts($usersPostsData, $userProfilData);
                         }else header('Location: ?page=login');
                     }else header('Location: ?page=register');
                 else header('Location: ?page=register');

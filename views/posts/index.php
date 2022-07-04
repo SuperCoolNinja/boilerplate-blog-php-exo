@@ -27,9 +27,13 @@
                                     
                                     echo '
                                     <div class="card-body text-center">
-                                        <h6 class="card-title mb-0">
+                                        <h6 class="card-title">
                                             '. $pseudo .'
                                         </h6>
+
+                                        <p class="card-text text-muted" style="font-size : 0.8rem;">
+                                            '. $status .'
+                                        </p>
                                     </div>
                                     ';
 
@@ -40,26 +44,14 @@
                                         echo '
                                         <form method="post">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="status" name="status" placeholder="Set a custom status">
+                                                    <input type="text" class="form-control" id="status"  maxlength="30" name="status" placeholder="Set a custom status">
                                                 </div>
 
                                                 <div class="text-center">
-                                                    <button type="submit" name = "submit-status" class="btn btn-primary my-4 mb-0">Submit</button>
+                                                    <button type="submit" name="submit-status" class="btn btn-primary my-4 mb-0">Submit</button>
                                                 </div>
                                         </form>';
                                     }
-                                    else 
-                                    {
-                                        echo '
-                                        <div class="card-body text-center">
-                                            <p class="card-text text-muted">
-                                                '. $status. '
-                                            </p>
-                                        </div>
-                                        ';
-                                    }
-                                    
-                                  
                                  }
                             ?>
                         </div>
