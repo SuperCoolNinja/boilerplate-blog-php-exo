@@ -19,6 +19,7 @@
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" autocomplete="off">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block mt-3" name="submit">Login</button>
+                        <a href="?page=register" class="btn btn-secondary btn-block mt-3" style="float:right">Create an account</a>
                     </form>
                 </div>
                 </div>

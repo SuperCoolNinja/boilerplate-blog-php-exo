@@ -61,6 +61,7 @@ if(!empty($_GET['errors']))
                             }
                         ?>
                         <button type="submit" class="btn btn-primary btn-block mt-3" name="submit">Register</button>
+                        <a href="?page=login" class="btn btn-secondary btn-block mt-3" style="float:right">Login with your account</a>
                     </form>
                 </div>
                 </div>

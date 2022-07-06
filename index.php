@@ -25,7 +25,7 @@ class Router
             case 'index':
                 // Check if the user have have session storage then it means he already created an account :
                 if(isset($_SESSION['loggedIn']) && isset($_SESSION['id']))
-
+                {
                     //Check if the user as an account register in db as well : 
                     if($this->controllerUsers->getUserByID($_SESSION['id']))
                     {
@@ -43,7 +43,7 @@ class Router
                             $this->controllerPosts->showPosts($usersPostsData, $userProfilData);
                         }else header('Location: ?page=login');
                     }else header('Location: ?page=register');
-                else header('Location: ?page=register');
+                }else header('Location: ?page=login');
                 break;
             case 'login':
                 include_once './views/users/login.php';
@@ -100,7 +100,7 @@ class Router
                     </div>';
                 }
                 break;
-            case 'logout':
+                case 'logout':
                     $this->controllerUsers->logout($_SESSION['id']);
                     header('Location: ?page=index');
                 break;
