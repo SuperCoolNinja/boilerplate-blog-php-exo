@@ -38,6 +38,14 @@ class Router
                                 $this->controllerUsers->setStatus($_SESSION['id'], $new_status);
                             }
 
+                            if(isset($_POST['submit-post']))
+                            {
+                                $new_post = htmlspecialchars($_POST['post']);
+                                $daata =  $this->controllerUsers->getUserByID($_SESSION['id']);
+                                foreach($daata as $user)
+                                    $this->controllerPosts->createPost($user['id'], $new_post, $user['pseudo'], $user['status']);
+                            }
+
                             $userProfilData =  $this->controllerUsers->getUserByID($_SESSION['id']);
                             $usersPostsData = $this->controllerPosts->getPosts();
                             $this->controllerPosts->showPosts($usersPostsData, $userProfilData);
@@ -47,6 +55,7 @@ class Router
                 break;
             case 'login':
                 include_once './views/users/login.php';
+                
                 if(isset($_POST['submit']))
                 {
                     if(isset($_POST['email']) && isset($_POST['password']))
