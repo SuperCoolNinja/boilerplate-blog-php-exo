@@ -74,5 +74,14 @@ class ControllerPosts{
     {
         return $this->modelPosts->queryCheckLike($id_post);
     }
+
+    /**
+     * Delete a post
+     * @param int $id_post
+     */
+    public function deletePost(int $id_post)
+    {
+        $this->modelPosts->queryDeletePost($id_post);
+    }
 }
 ?>

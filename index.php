@@ -46,7 +46,7 @@ class Router
                                     $this->controllerPosts->createPost($user['id'], $new_post, $user['pseudo'], $user['status']);
                             }
 
-                            $isPostAlreadyLiked = false;
+                           
                             if(isset($_POST['submit-like']))
                             {
                                 $id_post = htmlspecialchars($_GET['id_post']);
@@ -60,6 +60,13 @@ class Router
                                         $this->controllerPosts->updateLike(intval($id_post), intval($post['likes']));
                                 }
                             }
+
+                            if(isset($_POST['submit-delete']))
+                            {
+                                $id_post = htmlspecialchars($_GET['id_post']);
+                                $this->controllerPosts->deletePost($id_post);
+                            }
+
                             $userProfilData =  $this->controllerUsers->getUserByID($_SESSION['id']);
                             $usersPostsData = $this->controllerPosts->getPosts();
                             $this->controllerPosts->showPosts($usersPostsData, $userProfilData);

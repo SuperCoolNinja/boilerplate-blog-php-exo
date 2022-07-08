@@ -113,5 +113,24 @@ class ModelPosts {
         $result = $stmt->fetchAll();
         return $result;
     }
+
+    /**
+     * Delete a post
+     * @param int $id_post
+     */
+    public function queryDeletePost(int $id_post)
+    {
+        //Delelete all likes related of the post and the post itself
+        $connection = $this->db->getConnexion();
+        $sql_delete_likes = "DELETE FROM `likes` WHERE `post_id` = :post_id";
+        $stmt_delete_likes = $connection->prepare($sql_delete_likes);
+        $stmt_delete_likes->bindParam(':post_id', $id_post);
+        $stmt_delete_likes->execute();
+
+        $sql_delete_post = "DELETE FROM `posts` WHERE `id` = :id_post";
+        $stmt_delete_post = $connection->prepare($sql_delete_post);
+        $stmt_delete_post->bindParam(':id_post', $id_post);
+        $stmt_delete_post->execute();
+    }
 }
 ?>
