@@ -46,6 +46,20 @@ class Router
                                     $this->controllerPosts->createPost($user['id'], $new_post, $user['pseudo'], $user['status']);
                             }
 
+                            $isPostAlreadyLiked = false;
+                            if(isset($_POST['submit-like']))
+                            {
+                                $id_post = htmlspecialchars($_GET['id_post']);
+                                $data = $this->controllerPosts->getPostByID($id_post);
+
+                                $isPostAlreadyLiked = $this->controllerPosts->isPostAlreadyLiked($id_post);
+
+                                if(!$isPostAlreadyLiked)
+                                {
+                                    foreach($data as $post)
+                                        $this->controllerPosts->updateLike(intval($id_post), intval($post['likes']));
+                                }
+                            }
                             $userProfilData =  $this->controllerUsers->getUserByID($_SESSION['id']);
                             $usersPostsData = $this->controllerPosts->getPosts();
                             $this->controllerPosts->showPosts($usersPostsData, $userProfilData);

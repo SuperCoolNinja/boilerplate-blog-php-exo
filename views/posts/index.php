@@ -79,7 +79,7 @@
                         <h3 class="text-center">Create a post</h3>
                     </div>
                     <div class="card-body">
-                        <form action="index.php?controller=posts&action=create" method="post">
+                        <form method="post">
                             <div class="form-group mb-3">
                                 <textarea class="form-control" id="post" name="post" rows="3" placeholder="What's on your mind?" maxlength="255"></textarea>
                             </div>
@@ -103,9 +103,42 @@
                         $author = $post['author'];
                         $status = $post['status'];
                         $created_at = $post['created_at'];
-                        $like = $post['like'];
+                        $like = $post['likes'];
+                        $id_post = $post['id'];
+
+                         $buttonCanLike ='
+                            <!-- card footer -->
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between align-items-center">
+                                <form action="?id_post='.$id_post.'" method="post">
+                                    <button name="submit-like" type="submit" class="btn btn-sm btn-outline-secondary">Like</button>
+                                </form>
+                                <small class="text-muted">'.$like.' likes</small>
+                            </div>
+                        ';
+
                         
-                        echo '
+                        foreach($likes as $postLiked => $liked)
+                        {
+                            foreach($liked as $likedPost)
+                            {
+                                if($likedPost["post_id"] == $id_post)
+                                {
+
+                                   $buttonCanLike = '
+                                        <!-- card footer -->
+                                        <div class="card-footer">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                            <form action="?id_post='.$id_post.'" method="post">
+                                                <button disabled name="submit-like" type="submit" class="btn btn-sm btn-outline-secondary">Like</button>
+                                            </form>
+                                            <small class="text-muted">'.$like.' likes</small>
+                                        </div>
+                                    ';
+                                }
+                            }
+                        }
+                echo '
                     <div class="col-12">
                         <div class="card d-flex justify-content-center w-50 mx-auto" style="border : none">
                         <div class="card-body bg-white">
@@ -135,14 +168,7 @@
                                     <p class="card-text fs-6">'.$content.'</p>
                                 </div>
 
-                                <!-- card footer -->
-                                <div class="card-footer">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
-                                    </div>
-                                    <small class="text-muted">'.$like.' likes</small>
-                                </div>
+                               '.$buttonCanLike.'
                             </div>
                         </div>
                     </div>
@@ -157,32 +183,7 @@
 </body>
 </html>
 
+<!-- TODO AJOUTER LE DISABLED AVEC isPostAlreadyLiked COMME DATA TO CHECK -->
 
-
-<!-- 
-
- <section>
-        <div class="container">
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="text-center">Public Posts</h3>
-                        </div>
-                        <div class="card-body">
-                        <?php foreach ($posts as $post) { ?>
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?php echo "TITLE"; ?></h5>
-                                        <p class="card-text"><?php echo "CONTENUE" ?></p>
-                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
- -->
+<!-- <button name="submit-comment" type="submit" class="btn btn-sm btn-outline-secondary">Comment</button> -->
+<!-- <button name="submit-delete" type="submit" class="btn btn-sm btn-outline-secondary">Delete</button> -->

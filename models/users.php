@@ -67,12 +67,13 @@ class UsersModel
     {
         $password = password_hash($password, PASSWORD_DEFAULT);
         $connexion = $this->db->getConnexion();
-        $query = $connexion->prepare('INSERT INTO users (pseudo, password, email, isLoggedIn) VALUES (:pseudo, :password, :email, :isLoggedIn)');
+        $query = $connexion->prepare('INSERT INTO users (pseudo, password, email, isLoggedIn, created_at) VALUES (:pseudo, :password, :email, :isLoggedIn, :created_at)');
         $query->execute([
             'pseudo' => $pseudo,
             'password' => $password,
             'email' => $email,
-            'isLoggedIn' => 1
+            'isLoggedIn' => 1,
+            'created_at' => date('d/m/Y')
         ]);
         if($query)
         {
