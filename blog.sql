@@ -19,22 +19,37 @@
 CREATE DATABASE IF NOT EXISTS `blog` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `blog`;
 
+-- Listage de la structure de table blog. likes
+CREATE TABLE IF NOT EXISTS `likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `post_id` int(11) DEFAULT NULL,
+  KEY `id` (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+
+-- Listage des données de la table blog.likes : ~0 rows (environ)
+
 -- Listage de la structure de table blog. posts
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) DEFAULT NULL,
-  `title` text DEFAULT NULL,
-  `author` varchar(50) DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `created_at` varchar(20) DEFAULT NULL,
   `image` text DEFAULT NULL,
-  `like` int(11) NOT NULL DEFAULT 0,
   `comment` varchar(255) DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `author` varchar(20) DEFAULT NULL,
+  `likes` int(11) DEFAULT 0,
   KEY `id` (`id`),
   KEY `id_user` (`id_user`),
   KEY `author_pseudo` (`author`),
+  CONSTRAINT `author_pseudo` FOREIGN KEY (`author`) REFERENCES `users` (`pseudo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table blog.posts : ~0 rows (environ)
 
@@ -46,12 +61,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `profil_picture` text DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` text DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
+  `created_at` varchar(50) DEFAULT NULL,
   `status` varchar(30) DEFAULT NULL,
   `isLoggedIn` tinyint(1) DEFAULT NULL,
   UNIQUE KEY `pseudo` (`pseudo`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table blog.users : ~0 rows (environ)
 
