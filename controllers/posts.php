@@ -1,13 +1,18 @@
-<?php 
-class PostManager extends Model
-{
+<?php
+include_once './models/posts.php';
+class ControllerPosts{
+    public function __construct()
+    {
+       $this->modelPosts = new ModelPosts();
+    }
+
     /**
      * Get all posts
      * @return array
      */
-    public function getPosts() : array
+    public function getPosts()
     {
-        $posts = $this->getAll('posts', 'Post');
+        $posts = $this->modelPosts->queryGetAllPosts();
         return $posts;
     }
 
@@ -16,7 +21,7 @@ class PostManager extends Model
      * @param int $id_post
      * @return array
      */
-    public function getPostByID(int $id_post) : array
+    public function getPostByID(int $id_post)
     {
         $post = $this->modelPosts->queryGetPostByID($id_post);
         return $post;
@@ -27,7 +32,7 @@ class PostManager extends Model
      * array $usersPostsData
      * array $userProfilData
      */
-    public function showPosts(array $usersPostsData, array $userProfilData) : void
+    public function showPosts(array $usersPostsData, array $userProfilData)
     {
         $likes = array();
         foreach($usersPostsData as $posts)
@@ -44,7 +49,7 @@ class PostManager extends Model
      * @param string $author
      * @param string $status
      */
-    public function createPost(int $id_user, string $content, string $author, string $status) : void
+    public function createPost(int $id_user, string $content, string $author, string $status)
     {
         $this->modelPosts->queryCreatePost($id_user, $content, $author, $status);
     }
@@ -54,7 +59,7 @@ class PostManager extends Model
      * @param int $id_post
      * @param int $like
      */
-    public function updateLike(int $id_post, int $like) : void
+    public function updateLike(int $id_post, int $like)
     {
         $like = $like + 1;
         $this->modelPosts->queryUpdateLike($id_post, $like);
@@ -65,7 +70,7 @@ class PostManager extends Model
      * @param int $id_post
      * @return boolean
      */
-    public function isPostAlreadyLiked(int $id_post) : bool
+    public function isPostAlreadyLiked(int $id_post)
     {
         return $this->modelPosts->queryCheckLike($id_post);
     }
@@ -74,7 +79,7 @@ class PostManager extends Model
      * Delete a post
      * @param int $id_post
      */
-    public function deletePost(int $id_post) : void
+    public function deletePost(int $id_post)
     {
         $this->modelPosts->queryDeletePost($id_post);
     }
