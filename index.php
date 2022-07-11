@@ -32,10 +32,15 @@ class Router
                         //Check if the user is logged in :
                         if($this->controllerUsers->checkLoggedIn($_SESSION['id']))
                         {
-                            if(isset($_POST['submit-status']))
+                            if(isset($_POST['submit-status']) && isset($_POST['status']))
                             {
-                                $new_status = htmlspecialchars($_POST['status']);
-                                $this->controllerUsers->setStatus($_SESSION['id'], $new_status);
+                                $status = $_POST['status'];
+
+                                if($status != null && strlen($status) > 0)
+                                {
+                                    $new_status = htmlspecialchars($_POST['status']);
+                                    $this->controllerUsers->setStatus($_SESSION['id'], $new_status);
+                                }
                             }
 
                             if(isset($_POST['submit-post']))
@@ -43,7 +48,7 @@ class Router
                                 $new_post = htmlspecialchars($_POST['post']);
                                 $daata =  $this->controllerUsers->getUserByID($_SESSION['id']);
                                 foreach($daata as $user)
-                                    $this->controllerPosts->createPost($user['id'], $new_post, $user['pseudo'], $user['status']);
+                                    $this->controllerPosts->createPost($user['id'], $new_post, $user['pseudo'], $user['status'] == null ? '' : $user['status']);
                             }
 
                            
