@@ -1,18 +1,13 @@
-<?php
-include_once './models/posts.php';
-class ControllerPosts{
-    public function __construct()
-    {
-       $this->modelPosts = new ModelPosts();
-    }
-
+<?php 
+class PostManager extends Model
+{
     /**
      * Get all posts
      * @return array
      */
-    public function getPosts()
+    public function getPosts() : array
     {
-        $posts = $this->modelPosts->queryGetAllPosts();
+        $posts = $this->getAll('posts', 'Post');
         return $posts;
     }
 
@@ -21,7 +16,7 @@ class ControllerPosts{
      * @param int $id_post
      * @return array
      */
-    public function getPostByID(int $id_post)
+    public function getPostByID(int $id_post) : array
     {
         $post = $this->modelPosts->queryGetPostByID($id_post);
         return $post;
@@ -32,7 +27,7 @@ class ControllerPosts{
      * array $usersPostsData
      * array $userProfilData
      */
-    public function showPosts(array $usersPostsData, array $userProfilData)
+    public function showPosts(array $usersPostsData, array $userProfilData) : void
     {
         $likes = array();
         foreach($usersPostsData as $posts)
@@ -49,7 +44,7 @@ class ControllerPosts{
      * @param string $author
      * @param string $status
      */
-    public function createPost(int $id_user, string $content, string $author, string $status)
+    public function createPost(int $id_user, string $content, string $author, string $status) : void
     {
         $this->modelPosts->queryCreatePost($id_user, $content, $author, $status);
     }
@@ -59,7 +54,7 @@ class ControllerPosts{
      * @param int $id_post
      * @param int $like
      */
-    public function updateLike(int $id_post, int $like)
+    public function updateLike(int $id_post, int $like) : void
     {
         $like = $like + 1;
         $this->modelPosts->queryUpdateLike($id_post, $like);
@@ -70,7 +65,7 @@ class ControllerPosts{
      * @param int $id_post
      * @return boolean
      */
-    public function isPostAlreadyLiked(int $id_post)
+    public function isPostAlreadyLiked(int $id_post) : bool
     {
         return $this->modelPosts->queryCheckLike($id_post);
     }
@@ -79,7 +74,7 @@ class ControllerPosts{
      * Delete a post
      * @param int $id_post
      */
-    public function deletePost(int $id_post)
+    public function deletePost(int $id_post) : void
     {
         $this->modelPosts->queryDeletePost($id_post);
     }

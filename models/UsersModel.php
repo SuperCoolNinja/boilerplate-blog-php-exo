@@ -1,5 +1,6 @@
 <?php
-include_once 'db.php';
+require_once __DIR__ . '/../config/DB.php';
+
 class UsersModel
 {
     // Create Instance of DB Classf

@@ -1,5 +1,5 @@
 <?php
-include_once './models/users.php';
+include_once './models/UsersModel.php';
 class ControllerUsers
 {
     public function __construct()
@@ -12,7 +12,7 @@ class ControllerUsers
      * @param string $email
      * @param string $password
      */
-    public function login(string $email, string $password)
+    public function login(string $email, string $password) : void
     {
         $this->modelUsers->queryLogin($email, $password);
     }
@@ -24,7 +24,7 @@ class ControllerUsers
      * @param string $password
      * @param string $email
      */
-    public function register(string $pseudo, string $password, string $email)
+    public function register(string $pseudo, string $password, string $email) : void
     {
         $this->modelUsers->queryRegister($pseudo, $password, $email);
     }
@@ -36,7 +36,7 @@ class ControllerUsers
      * @param string $password
      * @param string $email
      */
-    public function updateUser(int $id, string $username, string $password, string $email)
+    public function updateUser(int $id, string $username, string $password, string $email) : void
     {
         $this->modelUsers->queryUpdateUser($id, $username, $password, $email);
     }
@@ -45,7 +45,7 @@ class ControllerUsers
      * Delete user by ID
      * @param int $id
      */
-    public function deleteUserByID(int $id)
+    public function deleteUserByID(int $id) : void
     {
         $this->modelUsers->queryDeleteUserByID($id);
     }
@@ -54,7 +54,7 @@ class ControllerUsers
      * Logout
      * @param int $id
      */
-    public function logout(int $id)
+    public function logout(int $id) : void
     {
         $this->modelUsers->queryLogout($id);
     }
@@ -62,9 +62,9 @@ class ControllerUsers
     /**
      * Get all users
      */
-    public function getAllUsers()
+    public function getAllUsers() : array
     {
-        $result = $this->modelUsers->queryGetAllUsers();
+        $result = $this->modelUsers->queryGetAllUsers(); 
         return $result;
     }
 
@@ -73,7 +73,7 @@ class ControllerUsers
      * @param string $id
      * @return array
      */
-    public function getUserByID(int $id)
+    public function getUserByID(int $id) : array
     {
         $result = $this->modelUsers->queryGetUserByID($id);
         return $result;
@@ -84,7 +84,7 @@ class ControllerUsers
      * @param string $email
      * @return array
      */
-    public function getUserByEmail(string $email)
+    public function getUserByEmail(string $email) : array
     {
         $result = $this->modelUsers->queryGetUserByEmail($email);
         return $result;
@@ -95,7 +95,7 @@ class ControllerUsers
      * @param string $pseudo
      * @return array
      */
-    public function getUserByPseudo(string $pseudo)
+    public function getUserByPseudo(string $pseudo) : array
     {
         $result = $this->modelUsers->queryGetUserByPseudo($pseudo);
         return $result;
@@ -107,7 +107,7 @@ class ControllerUsers
      * @param string $email
      * @return bool
      */
-    public function checkEmail(string $email)
+    public function checkEmail(string $email) : bool
     {
         return $this->modelUsers->queryCheckEmail($email);
     }
@@ -117,7 +117,7 @@ class ControllerUsers
      * @param string $pseudo
      * @return bool
      */
-    public function checkPseudo(string $pseudo)
+    public function checkPseudo(string $pseudo) : bool
     {
         return $this->modelUsers->queryCheckPseudo($pseudo);
     }
@@ -127,7 +127,7 @@ class ControllerUsers
      * @param string $password
      * @return bool
      */
-    public function checkPassword(string $password)
+    public function checkPassword(string $password) : bool
     {
         return $this->modelUsers->queryCheckPassword($password);
     }
@@ -137,7 +137,7 @@ class ControllerUsers
      * @param int $id
      * @return bool
      */
-    public function checkLoggedIn(int $id)
+    public function checkLoggedIn(int $id) : bool
     {
         return $this->modelUsers->queryCheckIsLoggedIn($id);
     }
@@ -147,7 +147,7 @@ class ControllerUsers
      * @param int $id
      * @param string $status
      */
-    public function setStatus(int $id, string $status)
+    public function setStatus(int $id, string $status) : void
     {
         $this->modelUsers->querySetStatus($id, $status);
     }

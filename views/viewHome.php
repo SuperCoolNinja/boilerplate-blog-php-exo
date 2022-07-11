@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include './views/includes/head.php'; ?>
+<!-- require head -->
+<?php require_once('views/templates/head.php'); ?>
 <body>
-    <?php include_once './views/includes/header.php';?>
+    <!-- require header -->
+    <?php require_once('views/templates/header.php'); ?>
 
     <!-- Section Profile and Post -->
     <section>
@@ -32,6 +34,7 @@
                                         <h6 class="card-title">
                                             '. $pseudo .'
                                         </h6>
+
                                         <p class="card-text text-muted" style="font-size : 0.8rem;">
                                             '. $status .'
                                         </p>
@@ -47,6 +50,7 @@
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" id="status"  maxlength="30" name="status" placeholder="Set a custom status">
                                                 </div>
+
                                                 <div class="text-center">
                                                     <button type="submit" name="submit-status" class="btn btn-sm btn-primary my-1 mb-0">Submit</button>
                                                 </div>
@@ -153,6 +157,7 @@
                                                     <button disabled name="submit-like" type="submit" class="btn btn-sm btn-outline-secondary">Like</button>
                                                     <button name="submit-delete" type="submit" class="btn btn-sm btn-danger">Delete</button>
                                                 </form>
+
                                                 <small class="text-muted">'.$like.' likes</small>
                                             </div>
                                         ';
