@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `likes` (
   KEY `post_id` (`post_id`),
   CONSTRAINT `post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table blog.likes : ~0 rows (environ)
 
@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS `posts` (
   KEY `author_pseudo` (`author`),
   CONSTRAINT `author_pseudo` FOREIGN KEY (`author`) REFERENCES `users` (`pseudo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table blog.posts : ~0 rows (environ)
+-- Listage des données de la table blog.posts : ~1 rows (environ)
 
 -- Listage de la structure de table blog. users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -66,9 +66,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `isLoggedIn` tinyint(1) DEFAULT NULL,
   UNIQUE KEY `pseudo` (`pseudo`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table blog.users : ~0 rows (environ)
+-- Listage des données de la table blog.users : ~2 rows (environ)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
